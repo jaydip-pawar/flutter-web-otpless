@@ -11,7 +11,7 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages).
 -->
 
-This package supports the otpless_flutter web support
+This package supports the otpless_flutter web support. For more info please [Visit OTPless](https://otpless.com/)
 
 # otpless_flutter_web
 
