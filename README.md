@@ -21,7 +21,8 @@ In your `index.html` file, add the following code:
 
 ```html
 <div id="otpless-login-page">
-<script src="otpless.com/flutter.js"></script>
+  <script src="https://otpless.tech/flutter.js"></script>
+</div>
 <script defer src="main.dart.js"></script>
 ```
 
@@ -29,7 +30,7 @@ In your `pubspec.yaml` file, add the following dependency:
 
 ```yaml
 dependencies:
-  otpless_flutter_web: ^0.0.4
+  otpless_flutter_web: ^0.0.5
 ```
 
 In your `SignIn/SignUp` dart file, add the following code:

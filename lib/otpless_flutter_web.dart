@@ -9,17 +9,10 @@ class Otpless {
   */
   Future<dynamic> openLoginPage() async {
     if (kIsWeb) {
+      String? data;
       await js.context.callMethod("openLoginPage", []);
-      js.context['callDartFunction'] = callDartFunction;
-      final data = js.context['callDartFunction'];
+      js.context['callDartFunction'] = data;
       return data;
     }
-  }
-
-  /*
-    This function is called from the javascript to send the data to dart 
-  */
-  callDartFunction(String message) {
-    return message;
   }
 }
