@@ -8,7 +8,6 @@ class Otpless {
   /*
     triggers the openLoginPage function which will open the login page from javascript 
   */
-
   Future<dynamic> openLoginPage() async {
     if (kIsWeb) {
       final completer = Completer<dynamic>();
