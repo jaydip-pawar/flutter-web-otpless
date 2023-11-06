@@ -17,64 +17,19 @@ This package supports the otpless_flutter web support. For more info please [Vis
 
 ## Installation
 
-In your `web` folder, add the custom.js file and add this code:
-
-```js
-const OtplessLoginPageVisibility = (visibility) => {
-  const OtplessLoginPage = document.getElementById("otpless-login-page");
-  OtplessLoginPage.style.display = visibility;
-};
-
-const SetOtplessCallback = () => {
-  window.otpless = (otplessUser) => {
-    console.log(`SetOtplessCallback-${JSON.stringify(otplessUser)}`);
-    window.callDartFunction(JSON.stringify(otplessUser));
-    OtplessLoginPageVisibility("none");
-  };
-};
-
-function openLoginPage() {
-  SetOtplessCallback();
-  const script = document.createElement("script");
-  script.type = "text/javascript";
-  script.src = "https://otpless.com/auth.js";
-  document.head.appendChild(script);
-}
-
-const OtplessLoginPageInit = () => {
-  const getURLParameter = (paramName, URLString = window.location.href) => {
-    const regex = new RegExp("[\\?&]" + paramName + "=([^&#]*)");
-    const results = regex.exec(URLString);
-
-    if (results && results.length > 0) {
-      return decodeURIComponent(results[1].replace(/\+/g, " "));
-    }
-    return "";
-  };
-
-  if (getURLParameter("code")) {
-    console.log(window.location.href);
-    openLoginPage("ef0kpz5g");
-  }
-};
-
-OtplessLoginPageInit();
-```
-
 In your `index.html` file, add the following code:
 
 ```html
 <div id="otpless-login-page">
-  <script src="custom.js"></script>
-  <script defer src="main.dart.js"></script>
-</div>
+<script src="otpless.com/flutter.js"></script>
+<script defer src="main.dart.js"></script>
 ```
 
 In your `pubspec.yaml` file, add the following dependency:
 
 ```yaml
 dependencies:
-  otpless_flutter_web: ^0.0.3
+  otpless_flutter_web: ^0.0.4
 ```
 
 In your `SignIn/SignUp` dart file, add the following code:

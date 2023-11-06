@@ -1,6 +1,5 @@
 library otpless_flutter_web;
 
-import 'dart:developer';
 import 'dart:js' as js;
 import 'package:flutter/foundation.dart';
 
@@ -8,12 +7,12 @@ class Otpless {
   /*
     triggers the openLoginPage function which will open the login page from javascript 
   */
-  Future<void> openLoginPage() async {
+  Future<dynamic> openLoginPage() async {
     if (kIsWeb) {
       await js.context.callMethod("openLoginPage", []);
       js.context['callDartFunction'] = callDartFunction;
-      log(js.context['callDartFunction']);
-      return js.context['callDartFunction'];
+      final data = js.context['callDartFunction'];
+      return data;
     }
   }
 
