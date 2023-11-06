@@ -74,7 +74,7 @@ In your `pubspec.yaml` file, add the following dependency:
 
 ```yaml
 dependencies:
-  otpless_flutter_web: ^0.0.2
+  otpless_flutter_web: ^0.0.3
 ```
 
 In your `SignIn/SignUp` dart file, add the following code:
