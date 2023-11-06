@@ -1,5 +1,6 @@
 library otpless_flutter_web;
 
+import 'dart:developer';
 import 'dart:js' as js;
 import 'package:flutter/foundation.dart';
 
@@ -11,6 +12,8 @@ class Otpless {
     if (kIsWeb) {
       await js.context.callMethod("openLoginPage", []);
       js.context['callDartFunction'] = callDartFunction;
+      log(js.context['callDartFunction']);
+      return js.context['callDartFunction'];
     }
   }
 
