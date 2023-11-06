@@ -1,10 +1,10 @@
 name: otpless_flutter_web
 description: Otpless Flutter Web support
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/devbathani/otpless_flutter_web
 
 environment:
-  sdk: '>=3.1.2 <4.0.0'
+  sdk: ">=3.1.2 <4.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
