@@ -38,7 +38,7 @@ In your `SignIn/SignUp` dart file, add the following code:
 import 'package:otpless_flutter_web/otpless_flutter_web.dart';
 final _otplessFlutterPlugin = Otpless();
 
-otplessLoginPage()async{
+void otplessLoginPage()async{
   await _otplessFlutterPlugin.openLoginPage().then((value){
     final data = value.toString();
   });
