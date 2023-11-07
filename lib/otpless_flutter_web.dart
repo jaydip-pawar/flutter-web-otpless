@@ -6,6 +6,9 @@ import 'dart:js' as js;
 import 'package:flutter/foundation.dart';
 
 class Otpless {
+  Otpless() {
+    getCodeForParams();
+  }
   Future<dynamic> openLoginPage() async {
     if (kIsWeb) {
       final completer = Completer<dynamic>();
@@ -46,6 +49,9 @@ class Otpless {
 
     // Example: Get the value of a specific query parameter
     final myQueryParam = queryParams["code"];
+    if (myQueryParam != null) {
+      openLoginPage();
+    }
     return myQueryParam;
   }
 }

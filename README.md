@@ -30,7 +30,7 @@ In your `pubspec.yaml` file, add the following dependency:
 
 ```yaml
 dependencies:
-  otpless_flutter_web: ^0.0.19
+  otpless_flutter_web: ^0.0.20
 ```
 
 In your `SignIn/SignUp` dart file, add the following code:
@@ -39,5 +39,5 @@ In your `SignIn/SignUp` dart file, add the following code:
 import 'package:otpless_flutter_web/otpless_flutter_web.dart';
 final _otplessFlutterPlugin = Otpless();
 //To you on tap function
-_otplessFlutterPlugin.openLoginPage();
+_otplessFlutterPlugin.openLoginPage().then((value){});
 ```
