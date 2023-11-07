@@ -39,12 +39,8 @@ class Otpless {
     // Parse the URL using Uri
     final uri = Uri.parse(currentUrl);
 
-    // Access query parameters
-    final queryParams = uri.queryParameters;
-
-    // Example: Get the value of a specific query parameter
-    final code = queryParams["code"];
-
+    final code = uri.toString();
+    
     return code;
   }
 }
