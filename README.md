@@ -21,16 +21,15 @@ In your `index.html` file, add the following code:
 
 ```html
 <div id="otpless-login-page">
-  <script src="https://otpless.tech/flutter.js"></script>
+  <script src="https://otpless.com/flutter.js"></script>
 </div>
-<script defer src="main.dart.js"></script>
 ```
 
 In your `pubspec.yaml` file, add the following dependency:
 
 ```yaml
 dependencies:
-  otpless_flutter_web: ^0.0.20
+  otpless_flutter_web: ^0.1.0
 ```
 
 In your `SignIn/SignUp` dart file, add the following code:
@@ -38,6 +37,20 @@ In your `SignIn/SignUp` dart file, add the following code:
 ```dart
 import 'package:otpless_flutter_web/otpless_flutter_web.dart';
 final _otplessFlutterPlugin = Otpless();
+
+otplessLoginPage()async{
+  await _otplessFlutterPlugin.openLoginPage().then((value){
+    final data = value.toString();
+  });
+}
+
+//In initState() add the given code
+if(_otplessFlutterPlugin.getCodeForParams() != null){
+  otplessLoginPage();
+}
+
 //To you on tap function
-_otplessFlutterPlugin.openLoginPage().then((value){});
+onTap : (){
+  otplessLoginPage();
+}
 ```

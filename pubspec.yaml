@@ -1,6 +1,6 @@
 name: otpless_flutter_web
 description: Otpless Flutter Web support
-version: 0.0.20
+version: 0.1.0
 homepage: https://github.com/devbathani/otpless_flutter_web
 
 environment:
