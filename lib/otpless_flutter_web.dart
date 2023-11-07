@@ -32,7 +32,7 @@ class Otpless {
     return Future.value(null);
   }
 
-  String? getCodeForParams() {
+  bool? getCodeForParams() {
     // Get the current URL
     final currentUrl = window.location.href;
 
@@ -40,7 +40,10 @@ class Otpless {
     final uri = Uri.parse(currentUrl);
 
     final code = uri.toString();
-    
-    return code;
+    if (code.contains("code")) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
