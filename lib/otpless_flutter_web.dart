@@ -32,18 +32,15 @@ class Otpless {
     return Future.value(null);
   }
 
-  bool? getCodeForParams() {
+  String? getCodeForParams() {
     // Get the current URL
     final currentUrl = window.location.href;
 
+    String modifiedString = currentUrl.replaceAll("/#", "");
     // Parse the URL using Uri
-    final uri = Uri.parse(currentUrl);
+    final uri = Uri.parse(modifiedString);
 
-    final code = uri.toString();
-    if (code.contains("code")) {
-      return true;
-    } else {
-      return false;
-    }
+    final code = uri.queryParameters['code'];
+    return code;
   }
 }
