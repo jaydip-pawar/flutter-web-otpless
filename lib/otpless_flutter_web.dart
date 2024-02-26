@@ -4,6 +4,7 @@ library otpless_flutter_web;
 ///
 /// allowing you to handle asynchronous operations such as futures and streams
 import 'dart:async';
+import 'dart:developer';
 
 /// This import is for supporting the functionality of [window] command
 import 'dart:html';
@@ -23,7 +24,8 @@ class Otpless {
       js.context.callMethod("openLoginPage", []);
 
       // Define the Dart function
-      callDartFunction(String? message) {
+      callDartFunction(dynamic message) {
+        log(message);
         if (message != null) {
           completer.complete(message);
         } else {
