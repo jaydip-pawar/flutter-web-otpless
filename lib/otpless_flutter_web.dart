@@ -4,7 +4,6 @@ library otpless_flutter_web;
 ///
 /// allowing you to handle asynchronous operations such as futures and streams
 import 'dart:async';
-import 'dart:developer';
 
 /// This import is for supporting the functionality of [window] command
 import 'dart:html';
@@ -17,15 +16,14 @@ import 'package:flutter/foundation.dart';
 
 class Otpless {
   ///This function will be used to trigger the OTPless Login page from the javascript code
-  Future<dynamic> openLoginPage() async {
+  Future<String> openLoginPage() async {
     if (kIsWeb) {
-      final completer = Completer<dynamic>();
+      final completer = Completer<String>();
 
       js.context.callMethod("openLoginPage", []);
 
       // Define the Dart function
-      callDartFunction(dynamic message) {
-        log(message);
+      callDartFunction(String? message) {
         if (message != null) {
           completer.complete(message);
         } else {
@@ -41,7 +39,7 @@ class Otpless {
     }
 
     // Return a Future that's already completed (in this case, you may want to return a different value or null)
-    return Future.value(null);
+    return Future.value("null");
   }
 
   /// This function is used for fetching the query parameters [code] from the web link

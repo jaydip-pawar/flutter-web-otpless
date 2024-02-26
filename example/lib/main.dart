@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:otpless_flutter_web/otpless_flutter_web.dart';
 
@@ -42,9 +44,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void otplessLoginPage() async {
     await _otplessFlutterPlugin.openLoginPage().then((value) {
-      final data = value;
-      name = data["data"]["mobile"]["name"];
-      number = data["data"]["mobile"]["number"];
+      Map<String, dynamic> json = jsonDecode(value);
+      Map<String, dynamic> mobile = json['mobile'];
+      number = mobile['number'];
+      name = mobile['name'];
       setState(() {});
     });
   }

@@ -29,7 +29,7 @@ In your `pubspec.yaml` file, add the following dependency:
 
 ```yaml
 dependencies:
-  otpless_flutter_web: ^1.0.10
+  otpless_flutter_web: ^1.0.17
 ```
 
 In your `SignIn/SignUp` dart file, add the following code:
@@ -40,7 +40,7 @@ final _otplessFlutterPlugin = Otpless();
 
 void otplessLoginPage()async{
   await _otplessFlutterPlugin.openLoginPage().then((value){
-    final data = value.toString();
+    final data = value;
   });
 }
 

@@ -1,6 +1,6 @@
 name: otpless_flutter_web
 description: A versatile Flutter web package eliminating the need for OTP during user authentication. Simplify secure login workflows effortlessly.
-version: 1.0.10
+version: 1.1.0
 homepage: https://github.com/devbathani/otpless_flutter_web
 
 environment:
