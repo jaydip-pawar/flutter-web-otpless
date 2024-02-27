@@ -44,10 +44,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void otplessLoginPage() async {
     await _otplessFlutterPlugin.openLoginPage().then((value) {
+      print(value);
       Map<String, dynamic> json = jsonDecode(value);
       Map<String, dynamic> mobile = json['mobile'];
+
       number = mobile['number'];
       name = mobile['name'];
+
       setState(() {});
     });
   }
