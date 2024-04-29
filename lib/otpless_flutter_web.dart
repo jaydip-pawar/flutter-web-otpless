@@ -42,6 +42,33 @@ class Otpless {
     return Future.value("null");
   }
 
+  ///This function will be used to trigger the Headless Feature of social login methods
+  Future<String> startHeadlessSocailLogin(String channelType) async {
+    if (kIsWeb) {
+      final completer = Completer<String>();
+
+      js.context.callMethod("startHeadlessSocailLogin", [channelType]);
+
+      // Define the Dart function
+      callDartFunction(String? message) {
+        if (message != null) {
+          completer.complete(message);
+        } else {
+          completer.completeError("Message is null");
+        }
+      }
+
+      // Assign the Dart function to the JavaScript context
+      js.context['callDartFunction'] = callDartFunction;
+
+      // Return the Future that will be completed when message is not null
+      return completer.future;
+    }
+
+    // Return a Future that's already completed (in this case, you may want to return a different value or null)
+    return Future.value("null");
+  }
+  
   /// This function is used for fetching the query parameters [code] from the web link
   String? getCodeForParams() {
     // Get the current URL
