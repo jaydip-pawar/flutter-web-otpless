@@ -11,46 +11,102 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages).
 -->
 
-This package supports the otpless_flutter web support. For more info please [Visit OTPless](https://otpless.com/)
+# Flutter
 
-# otpless_flutter_web
+Integrating One Tap OTPLESS Sign In into your Flutter Website using our SDK is a streamlined process. This guide offers a comprehensive walkthrough, detailing the steps to install the SDK and seamlessly retrieve user information.
 
-## Installation
+1. Install **OTPless SDK** Dependency
 
-In your `index.html` file, add the following code:
+```
+flutter pub add otpless_flutter_web:1.2.4
+```
+
+2. Initialize Otpless in index.html
 
 ```html
-<div id="otpless-login-page">
-  <script src="https://otpless.com/flutter.js"></script>
-</div>
+<!-- Add this script to initiate otpless -->
+<script
+  data-appid="{YOUR_APP_ID}"
+  src="https://otpless.com/v2/flutter.js"
+  id="otpless-sdk"
+  type="text/javascript"
+  variant="HEADLESS"
+></script>
 ```
 
-In your `pubspec.yaml` file, add the following dependency:
+3. Configure **Sign up/Sign in**
 
-```yaml
-dependencies:
-  otpless_flutter_web: ^1.1.0
-```
-
-In your `SignIn/SignUp` dart file, add the following code:
+- Import the following classes.
 
 ```dart
 import 'package:otpless_flutter_web/otpless_flutter_web.dart';
-final _otplessFlutterPlugin = Otpless();
+```
 
-void otplessLoginPage()async{
-  await _otplessFlutterPlugin.openLoginPage().then((value){
-    final data = value;
-  });
-}
+- Add this code to your initState() method
 
-//In initState() add the given code
-if(_otplessFlutterPlugin.getCodeForParams() != null){
-  otplessLoginPage();
-}
-
-//To you on tap function
-onTap : (){
-  otplessLoginPage();
+```dart
+@override
+  void initState() {
+    _otplessFlutterPlugin.headlessResponse().then((value) {
+      print("responseData : $value");
+    });
+    super.initState();
 }
 ```
+
+- Add this code for OAUTH Authentication
+
+```dart
+void initiateOAuth(String channelType) async {
+    await _otplessFlutterPlugin.initiateOAuth(channelType).then((value) {
+      print("initiateOAuth : $value");
+    });
+}
+```
+
+- Add this code for PHONE/EMAIL Authentication
+
+```dart
+void initiatePhoneEmailAuth() async {
+    Map<String, dynamic> arg = {};
+    if (otpContoller.text.isNotEmpty) {
+      if (phoneNumberContoller.text.isNotEmpty) {
+        arg["phone"] = phoneNumberContoller.text;
+        arg["countryCode"] = "ADD_COUNTRY_CODE";
+      } else {
+        arg["email"] = emailContoller.text;
+      }
+
+      arg["otp"] = otpContoller.text;
+
+      await _otplessFlutterPlugin.verifyAuth(arg).then((value) {
+        print("verifyAuth : $value");
+      });
+    } else {
+      if (phoneNumberContoller.text.isNotEmpty) {
+        arg["phone"] = phoneNumberContoller.text;
+        arg["countryCode"] = "ADD_COUNTRY_CODE";
+
+        await _otplessFlutterPlugin.initiatePhoneAuth(arg).then((value) {
+          print("initiatePhoneAuth : $value");
+        });
+      } else if (emailContoller.text.isNotEmpty) {
+        arg["email"] = emailContoller.text;
+
+        await _otplessFlutterPlugin.initiateEmailAuth(arg).then((value) {
+          print("initiateEmailAuth : $value");
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Please enter phone number or email"),
+        ),
+      );
+    }
+  }
+}
+```
+
+# Thank You
+
+# [Visit OTPless](https://otpless.com/platforms/flutter)

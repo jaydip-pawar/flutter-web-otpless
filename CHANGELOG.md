@@ -1,3 +1,1 @@
-## 1.1.0
-
-- Call the openLoginPage function to trigger the Otpless Floater for authentication
+## 1.2.3

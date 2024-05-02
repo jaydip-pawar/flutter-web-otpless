@@ -1,19 +1,50 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:otpless_flutter_web/otpless_flutter_web.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
-import 'dart:js' as js;
 
 void main() {
-  if (kIsWeb) {
-    test('openLoginPage function is called successfully on web platform',
-        () async {
-      Otpless otpless = Otpless();
-      bool isCalled = false;
-      js.context['openLoginPage'] = () {
-        isCalled = true;
-      };
-      await otpless.openLoginPage();
-      expect(isCalled, true);
+  group('Otpless', () {
+    late Otpless otpless;
+
+    setUp(() {
+      otpless = Otpless();
     });
-  }
+
+    test('headlessResponse', () async {
+      await otpless.headlessResponse();
+      // Add your assertions here
+    });
+
+    test('initiateOAuth', () async {
+      await otpless.initiateOAuth('channelType');
+      // Add your assertions here
+    });
+
+    test('initiatePhoneAuth', () async {
+      final request = {"key": "value"};
+      await otpless.initiatePhoneAuth(request);
+      // Add your assertions here
+    });
+
+    test('initiateEmailAuth', () async {
+      final request = {"key": "value"};
+      await otpless.initiateEmailAuth(request);
+      // Add your assertions here
+    });
+
+    test('verifyAuth', () async {
+      final data = {"key": "value"};
+      await otpless.verifyAuth(data);
+      // Add your assertions here
+    });
+
+    test('getCodeForParams', () {
+      otpless.getCodeForParams();
+      // Add your assertions here
+    });
+
+    test('executeFunction', () async {
+      await otpless.executeFunction('functionName', []);
+      // Add your assertions here
+    });
+  });
 }
