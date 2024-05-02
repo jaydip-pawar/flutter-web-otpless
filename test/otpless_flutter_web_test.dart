@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:js' as js;
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:otpless_flutter_web/otpless_flutter_web.dart';
 
@@ -9,42 +12,44 @@ void main() {
       otpless = Otpless();
     });
 
-    test('headlessResponse', () async {
-      await otpless.headlessResponse();
-      // Add your assertions here
+    test('initiateOAuth should call executeFunction with correct arguments',
+        () {
+      resultCallback(dynamic result) {}
+      const channelType = 'someChannelType';
+
+      otpless.initiateOAuth(resultCallback, channelType);
+
+      final expectedData = {"channelType": channelType, "channel": "OAUTH"};
+      final expectedArguments = [jsonEncode(expectedData)];
+
+      expect(js.context['getResponse'], isNotNull);
+      expect(js.context['getResponse'], isA<Function>());
     });
 
-    test('initiateOAuth', () async {
-      await otpless.initiateOAuth('channelType');
-      // Add your assertions here
+    test('initiatePhoneAuth should call executeFunction with correct arguments',
+        () {
+      resultCallback(dynamic result) {}
+      final requestData = {"phoneNumber": "1234567890"};
+
+      otpless.initiatePhoneAuth(resultCallback, requestData);
+
+      final expectedData = {...requestData, "channel": "PHONE"};
+      final expectedArguments = [jsonEncode(expectedData)];
+
+      expect(js.context['getResponse'], isNotNull);
+      expect(js.context['getResponse'], isA<Function>());
     });
 
-    test('initiatePhoneAuth', () async {
-      final request = {"key": "value"};
-      await otpless.initiatePhoneAuth(request);
-      // Add your assertions here
-    });
+    test('verifyAuth should call executeFunction with correct arguments', () {
+      resultCallback(dynamic result) {}
+      final requestData = {"someKey": "someValue"};
 
-    test('initiateEmailAuth', () async {
-      final request = {"key": "value"};
-      await otpless.initiateEmailAuth(request);
-      // Add your assertions here
-    });
+      otpless.verifyAuth(resultCallback, requestData);
 
-    test('verifyAuth', () async {
-      final data = {"key": "value"};
-      await otpless.verifyAuth(data);
-      // Add your assertions here
-    });
+      final expectedArguments = [jsonEncode(requestData)];
 
-    test('getCodeForParams', () {
-      otpless.getCodeForParams();
-      // Add your assertions here
-    });
-
-    test('executeFunction', () async {
-      await otpless.executeFunction('functionName', []);
-      // Add your assertions here
+      expect(js.context['getResponse'], isNotNull);
+      expect(js.context['getResponse'], isA<Function>());
     });
   });
 }
