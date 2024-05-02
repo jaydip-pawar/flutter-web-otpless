@@ -5,12 +5,13 @@
 /// interop.
 library otplessflutter_web;
 
-import 'dart:async';
 import 'dart:convert';
 import 'dart:html';
 import 'dart:js' as js;
 
 import 'package:flutter/foundation.dart';
+
+typedef OtplessResultCallback = void Function(dynamic);
 
 /// A class for handling OTP-less authentication operations.
 class Otpless {
@@ -19,57 +20,59 @@ class Otpless {
   /// Returns a Future with the headless response.
   Otpless() {
     if (getCodeForParams() != null) {
-      headlessResponse();
+      headlessResponse((p0) {});
     }
   }
 
   /// Opens the login page for OTP-less authentication.
   ///
   /// Returns a Future with the result of opening the login page.
-  Future<String?> openLoginPage() {
-    return executeFunction("openLoginPage", []);
+  void openLoginPage(OtplessResultCallback resultCallback) {
+    return executeFunction(resultCallback, "openLoginPage", []);
   }
 
   /// Initiates a headless authentication response.
   ///
   /// Returns a Future with the headless response.
-  Future<String?> headlessResponse() {
-    return executeFunction("startHeadless", []);
+  void headlessResponse(OtplessResultCallback resultCallback) {
+    return executeFunction(resultCallback, "startHeadless", []);
   }
 
   /// Initiates OAuth authentication.
   ///
   /// [channelType] - The type of channel to use for authentication.
   /// Returns a Future with the result of initiating OAuth authentication.
-  Future<String?> initiateOAuth(String channelType) {
+  void initiateOAuth(OtplessResultCallback resultCallback, String channelType) {
     final data = {"channelType": channelType, "channel": "OAUTH"};
-    return executeFunction("initiateAuth", [jsonEncode(data)]);
+    return executeFunction(resultCallback, "initiateAuth", [jsonEncode(data)]);
   }
 
   /// Initiates phone number authentication.
   ///
   /// [request] - The request data for phone authentication.
   /// Returns a Future with the result of initiating phone authentication.
-  Future<String?> initiatePhoneAuth(Map<String, dynamic> request) {
+  void initiatePhoneAuth(
+      OtplessResultCallback resultCallback, Map<String, dynamic> request) {
     final data = {...request, "channel": "PHONE"};
-    return executeFunction("initiateAuth", [jsonEncode(data)]);
+    return executeFunction(resultCallback, "initiateAuth", [jsonEncode(data)]);
   }
 
   /// Initiates email authentication.
   ///
   /// [request] - The request data for email authentication.
   /// Returns a Future with the result of initiating email authentication.
-  Future<String?> initiateEmailAuth(Map<String, dynamic> request) {
+  void initiateEmailAuth(
+      OtplessResultCallback resultCallback, Map<String, dynamic> request) {
     final data = {...request, "channel": "EMAIL"};
-    return executeFunction("initiateAuth", [jsonEncode(data)]);
+    return executeFunction(resultCallback, "initiateAuth", [jsonEncode(data)]);
   }
 
   /// Verifies the authentication.
   ///
   /// [data] - The authentication data to verify.
   /// Returns a Future with the result of authentication verification.
-  Future<String?> verifyAuth(dynamic data) {
-    return executeFunction("verifyAuth", [jsonEncode(data)]);
+  void verifyAuth(OtplessResultCallback resultCallback, dynamic data) {
+    return executeFunction(resultCallback, "verifyAuth", [jsonEncode(data)]);
   }
 
   /// Gets the authentication code from URL parameters.
@@ -86,18 +89,22 @@ class Otpless {
   /// [functionName] - The name of the JavaScript function to execute.
   /// [arguments] - Optional arguments to pass to the JavaScript function.
   /// Returns a Future with the result of the JavaScript function execution.
-  Future<String?> executeFunction(String functionName,
+  void executeFunction(
+      OtplessResultCallback onHeadlessResult, String functionName,
       [List<Object>? arguments]) async {
-    if (!kIsWeb) return "null";
-    final completer = Completer<String?>();
+    if (!kIsWeb) return;
 
     js.context.callMethod(functionName, arguments);
 
     js.context['getResponse'] = (String? message) {
-      if (jsonDecode(message!)["responseType"] == "ONETAP") {
-        completer.complete(message);
+      if (functionName == 'verifyAuth') {
+        if (message != null &&
+            jsonDecode(message)["responseType"] == "ONETAP") {
+          onHeadlessResult(message);
+        }
+      } else {
+        onHeadlessResult(message);
       }
     };
-    return completer.future;
   }
 }

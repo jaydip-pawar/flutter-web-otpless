@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:otpless_flutter_web/otpless_flutter_web.dart';
@@ -44,11 +43,14 @@ class _HomeScreenState extends State<HomeScreen> {
   //************************************************************************* */
   //This function will run the floater in the app which contains the WhatsApp button for Authentication
   //************************************************************************* */
+  void onHeadlessResult(dynamic result) {
+    setState(() {
+      print("Outside -> $result");
+    });
+  }
 
   void initiateOAuth(String channelType) async {
-    await _otplessFlutterPlugin.initiateOAuth(channelType).then((value) {
-      print("initiateOAuth : $value");
-    });
+    _otplessFlutterPlugin.initiateOAuth(onHeadlessResult, channelType);
   }
 
   void initiatePhoneEmailAuth() async {
@@ -63,34 +65,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
       arg["otp"] = otpContoller.text;
 
-      await _otplessFlutterPlugin.verifyAuth(arg).then((value) {
-        print("verifyAuth : $value");
-        name = jsonDecode(value!)['response']['identities'][0]['name'];
-        data = jsonDecode(value)['response']['identities'][0]['identityValue'];
-        setState(() {});
-      });
+      _otplessFlutterPlugin.verifyAuth(onHeadlessResult, arg);
     } else {
       if (phoneNumberContoller.text.isNotEmpty) {
         arg["phone"] = phoneNumberContoller.text;
         arg["countryCode"] = "91";
 
-        await _otplessFlutterPlugin.initiatePhoneAuth(arg).then((value) {
-          print("initiatePhoneAuth : $value");
-          name = jsonDecode(value!)['response']['identities'][0]['name'];
-          data =
-              jsonDecode(value)['response']['identities'][0]['identityValue'];
-          setState(() {});
-        });
+        _otplessFlutterPlugin.initiatePhoneAuth(onHeadlessResult, arg);
       } else if (emailContoller.text.isNotEmpty) {
         arg["email"] = emailContoller.text;
 
-        await _otplessFlutterPlugin.initiateEmailAuth(arg).then((value) {
-          print("initiateEmailAuth : $value");
-          name = jsonDecode(value!)['response']['identities'][0]['name'];
-          data =
-              jsonDecode(value)['response']['identities'][0]['identityValue'];
-          setState(() {});
-        });
+        _otplessFlutterPlugin.initiateEmailAuth(onHeadlessResult, arg);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -103,12 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    _otplessFlutterPlugin.headlessResponse().then((value) {
-      print("responseData : $value");
-      name = jsonDecode(value!)['response']['identities'][0]['name'];
-      data = jsonDecode(value)['response']['identities'][0]['identityValue'];
-      setState(() {});
-    });
+    _otplessFlutterPlugin.headlessResponse(onHeadlessResult);
 
     super.initState();
   }
