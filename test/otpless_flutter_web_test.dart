@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:js' as js;
 
 import 'package:flutter_test/flutter_test.dart';
@@ -19,9 +18,6 @@ void main() {
 
       otpless.initiateOAuth(resultCallback, channelType);
 
-      final expectedData = {"channelType": channelType, "channel": "OAUTH"};
-      final expectedArguments = [jsonEncode(expectedData)];
-
       expect(js.context['getResponse'], isNotNull);
       expect(js.context['getResponse'], isA<Function>());
     });
@@ -33,9 +29,6 @@ void main() {
 
       otpless.initiatePhoneAuth(resultCallback, requestData);
 
-      final expectedData = {...requestData, "channel": "PHONE"};
-      final expectedArguments = [jsonEncode(expectedData)];
-
       expect(js.context['getResponse'], isNotNull);
       expect(js.context['getResponse'], isA<Function>());
     });
@@ -45,8 +38,6 @@ void main() {
       final requestData = {"someKey": "someValue"};
 
       otpless.verifyAuth(resultCallback, requestData);
-
-      final expectedArguments = [jsonEncode(requestData)];
 
       expect(js.context['getResponse'], isNotNull);
       expect(js.context['getResponse'], isA<Function>());

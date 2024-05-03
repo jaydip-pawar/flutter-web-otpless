@@ -34,6 +34,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   String? name;
   String? data;
+  String dataResponse = 'Unknown';
   final TextEditingController phoneNumberContoller = TextEditingController();
   final TextEditingController otpContoller = TextEditingController();
   final TextEditingController emailContoller = TextEditingController();
@@ -45,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
   //************************************************************************* */
   void onHeadlessResult(dynamic result) {
     setState(() {
-      print("Outside -> $result");
+      dataResponse = result;
     });
   }
 
@@ -89,7 +90,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     _otplessFlutterPlugin.headlessResponse(onHeadlessResult);
-
     super.initState();
   }
 

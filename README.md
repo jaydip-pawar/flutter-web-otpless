@@ -18,7 +18,7 @@ Integrating One Tap OTPLESS Sign In into your Flutter Website using our SDK is a
 1. Install **OTPless SDK** Dependency
 
 ```
-flutter pub add otpless_flutter_web:1.2.4
+flutter pub add otpless_flutter_web:1.2.5
 ```
 
 2. Initialize Otpless in index.html
@@ -46,11 +46,19 @@ import 'package:otpless_flutter_web/otpless_flutter_web.dart';
 
 ```dart
 @override
-  void initState() {
-    _otplessFlutterPlugin.headlessResponse().then((value) {
-      print("responseData : $value");
-    });
-    super.initState();
+void initState() {
+  _otplessFlutterPlugin.headlessRespons(onHeadlessResult);
+  super.initState();
+}
+```
+
+- Add this code to handle callback response
+
+```dart
+void onHeadlessResult(dynamic result) {
+  setState(() {
+    dataResponse = result;
+  });
 }
 ```
 
@@ -58,9 +66,7 @@ import 'package:otpless_flutter_web/otpless_flutter_web.dart';
 
 ```dart
 void initiateOAuth(String channelType) async {
-    await _otplessFlutterPlugin.initiateOAuth(channelType).then((value) {
-      print("initiateOAuth : $value");
-    });
+  _otplessFlutterPlugin.initiateOAuth(onHeadlessResult, channelType);
 }
 ```
 
@@ -68,38 +74,32 @@ void initiateOAuth(String channelType) async {
 
 ```dart
 void initiatePhoneEmailAuth() async {
-    Map<String, dynamic> arg = {};
-    if (otpContoller.text.isNotEmpty) {
-      if (phoneNumberContoller.text.isNotEmpty) {
-        arg["phone"] = phoneNumberContoller.text;
-        arg["countryCode"] = "ADD_COUNTRY_CODE";
-      } else {
-        arg["email"] = emailContoller.text;
-      }
-
-      arg["otp"] = otpContoller.text;
-
-      await _otplessFlutterPlugin.verifyAuth(arg).then((value) {
-        print("verifyAuth : $value");
-      });
+  Map<String, dynamic> arg = {};
+  if (otpContoller.text.isNotEmpty) {
+    if (phoneNumberContoller.text.isNotEmpty) {
+      arg["phone"] = phoneNumberContoller.text;
+      arg["countryCode"] = "91";
     } else {
-      if (phoneNumberContoller.text.isNotEmpty) {
-        arg["phone"] = phoneNumberContoller.text;
-        arg["countryCode"] = "ADD_COUNTRY_CODE";
+      arg["email"] = emailContoller.text;
+    }
 
-        await _otplessFlutterPlugin.initiatePhoneAuth(arg).then((value) {
-          print("initiatePhoneAuth : $value");
-        });
-      } else if (emailContoller.text.isNotEmpty) {
-        arg["email"] = emailContoller.text;
+    arg["otp"] = otpContoller.text;
 
-        await _otplessFlutterPlugin.initiateEmailAuth(arg).then((value) {
-          print("initiateEmailAuth : $value");
-        });
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Please enter phone number or email"),
+    _otplessFlutterPlugin.verifyAuth(onHeadlessResult, arg);
+  } else {
+    if (phoneNumberContoller.text.isNotEmpty) {
+      arg["phone"] = phoneNumberContoller.text;
+      arg["countryCode"] = "91";
+
+      _otplessFlutterPlugin.initiatePhoneAuth(onHeadlessResult, arg);
+    } else if (emailContoller.text.isNotEmpty) {
+      arg["email"] = emailContoller.text;
+
+      _otplessFlutterPlugin.initiateEmailAuth(onHeadlessResult, arg);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Please enter phone number or email"),
         ),
       );
     }
