@@ -18,7 +18,7 @@ Integrating One Tap OTPLESS Sign In into your Flutter Website using our SDK is a
 1. Install **OTPless SDK** Dependency
 
 ```
-flutter pub add otpless_flutter_web:1.2.5
+flutter pub add otpless_flutter_web:1.2.6
 ```
 
 2. Initialize Otpless in index.html
