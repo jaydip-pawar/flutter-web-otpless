@@ -45,6 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
   //This function will run the floater in the app which contains the WhatsApp button for Authentication
   //************************************************************************* */
   void onHeadlessResult(dynamic result) {
+    print(result);
     setState(() {
       dataResponse = result;
     });
